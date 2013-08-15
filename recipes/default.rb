@@ -69,3 +69,7 @@ file '/etc/ld.so.conf.d/oracle-instantclient.conf' do
 EOF
 end
 
+bash 'update_ld.so' do
+  command 'ldconfig'
+  action :nothing
+end
