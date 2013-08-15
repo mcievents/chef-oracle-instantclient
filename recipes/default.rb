@@ -48,6 +48,7 @@ node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |comp
     mode 0644
     action :create_if_missing
     notifies :run, "bash[unzip_instant_client_#{component}]", :immediately
+    notifies :run, 'bash[symlink_oracle_libs]', :delayed if [ 'basic', 'basiclist' ].include? component
   end
 
   bash "unzip_instant_client_#{component}" do
@@ -56,6 +57,16 @@ node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |comp
     EOF
     action :nothing
   end
+end
+
+bash 'symlink_oracle_libs' do
+  cwd lib_dir
+  code <<-EOF
+    ln -s libocci.so.11.1 libocci.so
+    ln -s libclntsh.so.11.1 libclntsh.so
+  EOF
+  action :nothing
+  notifies :run, 'bash[update_ld.so]', :delayed
 end
 
 file '/etc/ld.so.conf.d/oracle-instantclient.conf' do
