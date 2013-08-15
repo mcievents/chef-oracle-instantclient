@@ -25,6 +25,7 @@ arch = case node['kernel']['machine']
 include_recipe 'apt'
 
 package 'unzip'
+package 'libaio1'
 
 directory node['oracle_instantclient']['install_dir'] do
   owner 'root'
