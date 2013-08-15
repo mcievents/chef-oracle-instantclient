@@ -29,7 +29,6 @@ package 'libaio1'
 
 install_dir = node['oracle_instantclient']['install_dir']
 base_dir = "#{install_dir}/#{node['oracle_instantclient']['product_subdir']}"
-node.default['oracle_instantclient']['base_dir'] = base_dir
 
 directory node['oracle_instantclient']['install_dir'] do
   owner 'root'
