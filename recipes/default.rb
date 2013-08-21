@@ -3,13 +3,13 @@
 # Recipe:: default
 #
 # Copyright (C) 2013 Wyndham Jade LLC
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ end
 
 node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |component|
   filename = "instantclient-#{component}-linux#{arch}-#{node['oracle_instantclient']['version']}.zip"
-  local_file = "#{Chef::Config['file_cache_path']}/#{filename}" 
+  local_file = "#{Chef::Config['file_cache_path']}/#{filename}"
   source_url = "#{node['oracle_instantclient']['download_base_url']}/#{filename}"
 
   remote_file local_file do
