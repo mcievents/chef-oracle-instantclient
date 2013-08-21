@@ -48,7 +48,6 @@ node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |comp
     mode 0644
     action :create_if_missing
     notifies :run, "bash[unzip_instant_client_#{component}]", :immediately
-    notifies :run, 'bash[symlink_oracle_libs]', :delayed if [ 'basic', 'basiclist' ].include? component
   end
 
   bash "unzip_instant_client_#{component}" do
@@ -56,6 +55,7 @@ node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |comp
       /usr/bin/unzip -o "#{local_file}" -d "#{install_dir}"
     EOF
     action :nothing
+    notifies :run, 'bash[symlink_oracle_libs]', :immediately if [ 'basic', 'basiclite' ].include? component
   end
 end
 
