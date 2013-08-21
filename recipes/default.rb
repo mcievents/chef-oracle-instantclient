@@ -78,6 +78,7 @@ file '/etc/ld.so.conf.d/oracle-instantclient.conf' do
 # Oracle Instant Client library path.
 #{base_dir}
 EOF
+  notifies :run, 'bash[update_ld.so]', :delayed
 end
 
 bash 'update_ld.so' do
