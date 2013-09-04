@@ -66,7 +66,7 @@ bash 'symlink_oracle_libs' do
     ln -s libclntsh.so.11.1 libclntsh.so
   EOF
   action :nothing
-  notifies :run, 'bash[update_ld.so]', :delayed
+  notifies :run, 'bash[update_ld.so]', :immediately
 end
 
 file '/etc/ld.so.conf.d/oracle-instantclient.conf' do
@@ -78,7 +78,7 @@ file '/etc/ld.so.conf.d/oracle-instantclient.conf' do
 # Oracle Instant Client library path.
 #{base_dir}
 EOF
-  notifies :run, 'bash[update_ld.so]', :delayed
+  notifies :run, 'bash[update_ld.so]', :immediately
 end
 
 bash 'update_ld.so' do
