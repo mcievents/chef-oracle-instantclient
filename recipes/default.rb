@@ -82,6 +82,8 @@ EOF
 end
 
 bash 'update_ld.so' do
-  command 'ldconfig'
+  code <<-EOF
+    ldconfig
+  EOF
   action :nothing
 end
