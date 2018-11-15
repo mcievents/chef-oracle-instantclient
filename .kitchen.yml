@@ -1,0 +1,27 @@
+---
+driver:
+  name: dokken
+  chef_version: 12
+
+transport:
+  name: dokken
+  host_ip_override: 'localhost'
+
+provisioner:
+  name: dokken
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-18.04
+    driver:
+      image: dokken/ubuntu-18.04
+      privileged: true
+      pid_one_command: /bin/systemd
+
+suites:
+  - name: default
+    run_list:
+      - recipe[oracle-instantclient::default]
+
