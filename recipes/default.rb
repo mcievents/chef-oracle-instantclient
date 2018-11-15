@@ -2,7 +2,7 @@
 # Cookbook Name:: oracle-instantclient
 # Recipe:: default
 #
-# Copyright (C) 2013 Wyndham Jade LLC
+# Copyright (C) 2018 MCI USA
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +36,10 @@ directory node['oracle_instantclient']['install_dir'] do
   mode 0755
 end
 
-node['oracle_instantclient']['components'].select { |k,v| v }.keys.each do |component|
+selected_components =
+  node['oracle_instantclient']['components'].select { |_, v| v }.keys
+
+selected_components.each do |component|
   filename = "instantclient-#{component}-linux#{arch}-#{node['oracle_instantclient']['version']}.zip"
   local_file = "#{Chef::Config['file_cache_path']}/#{filename}"
   source_url = "#{node['oracle_instantclient']['download_base_url']}/#{filename}"
@@ -62,8 +65,8 @@ end
 bash 'symlink_oracle_libs' do
   cwd base_dir
   code <<-EOF
-    ln -s libocci.so.11.1 libocci.so
-    ln -s libclntsh.so.11.1 libclntsh.so
+    ln -s libocci.so.* libocci.so
+    ln -s libclntsh.so.* libclntsh.so
   EOF
   action :nothing
   notifies :run, 'bash[update_ld.so]', :immediately
